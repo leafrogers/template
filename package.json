@@ -41,7 +41,7 @@
     "nodemon": "^2.0.12",
     "pinst": "^2.1.6",
     "prettier": "^2.3.2",
-    "supertest": "^6.1.1",
+    "supertest": "^6.1.5",
     "typescript": "^4.3.5"
   },
   "engines": {
