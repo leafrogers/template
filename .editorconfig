@@ -1,4 +1,4 @@
-[**.{css,html,js,jsx,scss,sh,ts,tsx}]
+[**.{cjs,css,html,js,jsx,mjs,scss,sh,ts,tsx}]
 charset = utf-8
 end_of_line = lf
 indent_style = tab
