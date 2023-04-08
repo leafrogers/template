@@ -28,7 +28,7 @@ module.exports = {
 		}
 	],
 	parserOptions: {
-		ecmaVersion: 2020
+		ecmaVersion: 2022
 	},
 	rules: {
 		complexity: ['error', 4],
