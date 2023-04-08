@@ -4,25 +4,6 @@ module.exports = {
 		'plugin:node/recommended',
 		'plugin:prettier/recommended'
 	],
-	parserOptions: {
-		ecmaVersion: 2020
-	},
-	rules: {
-		complexity: ['error', 4],
-		'max-depth': ['error', 2],
-		'max-nested-callbacks': ['error', 2],
-		'node/exports-style': ['error', 'module.exports'],
-		'node/file-extension-in-import': ['error', 'always'],
-		'node/no-unpublished-import': 'off',
-		'node/no-unpublished-require': 'off',
-		'node/prefer-global/buffer': ['error', 'always'],
-		'node/prefer-global/console': ['error', 'always'],
-		'node/prefer-global/process': ['error', 'always'],
-		'node/prefer-global/url-search-params': ['error', 'always'],
-		'node/prefer-global/url': ['error', 'always'],
-		'node/prefer-promises/dns': 'error',
-		'node/prefer-promises/fs': 'error'
-	},
 	overrides: [
 		{
 			files: ['client/**/*.js', 'shared/**/*.js'],
@@ -45,5 +26,24 @@ module.exports = {
 				'max-nested-callbacks': ['error', 3]
 			}
 		}
-	]
+	],
+	parserOptions: {
+		ecmaVersion: 2020
+	},
+	rules: {
+		complexity: ['error', 4],
+		'max-depth': ['error', 2],
+		'max-nested-callbacks': ['error', 2],
+		'node/exports-style': ['error', 'module.exports'],
+		'node/file-extension-in-import': ['error', 'always'],
+		'node/no-unpublished-import': 'off',
+		'node/no-unpublished-require': 'off',
+		'node/prefer-global/buffer': ['error', 'always'],
+		'node/prefer-global/console': ['error', 'always'],
+		'node/prefer-global/process': ['error', 'always'],
+		'node/prefer-global/url-search-params': ['error', 'always'],
+		'node/prefer-global/url': ['error', 'always'],
+		'node/prefer-promises/dns': 'error',
+		'node/prefer-promises/fs': 'error'
+	}
 };
