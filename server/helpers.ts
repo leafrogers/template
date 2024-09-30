@@ -1,45 +1,36 @@
 import fs from 'fs';
-import config from './config.js';
-import bootstrapper from '../client/bootstrapper.js';
+import config from './config.ts';
+import bootstrapper from '../client/bootstrapper.ts';
+import type { NextFunction, Request, Response } from 'express';
 
 export const logger = console;
 
-/**
- * @param {function} callback
- */
-export const catchRejections = (callback) => {
-	/**
-	 * @param {ExpressRequest} req
-	 * @param {ExpressResponse} res
-	 * @param {NextFunction} next
-	 */
-	return (req, res, next) => {
+export const catchRejections = (
+	callback: (
+		req: Request,
+		res: Response,
+		next: NextFunction
+	) => Promise<unknown>
+) => {
+	return (req: Request, res: Response, next: NextFunction) => {
 		callback(req, res, next).catch(next);
 	};
 };
 
 export class HttpError extends Error {
-	/**
-	 * @param {number} status
-	 * @param {string} message
-	 */
-	constructor(status, message) {
+	status: number;
+
+	constructor(status: number, message: string) {
 		super(message);
 		this.status = status;
 		this.message = message;
 	}
 }
 
-/**
- * @param {string} string
- */
-export const stripSpace = (string) =>
+export const stripSpace = (string: string) =>
 	string.replace(/\n/g, '').replace(/\t/g, '').replace(/\s\s+/g, ' ');
 
-/**
- * @param {fs.PathOrFileDescriptor} filePath
- */
-export const importFile = (filePath) => {
+export const importFile = (filePath: fs.PathOrFileDescriptor) => {
 	if (typeof filePath !== 'string') {
 		throw new TypeError(
 			`Expected one argument, and expected it to be a file path as a string.`
@@ -49,13 +40,15 @@ export const importFile = (filePath) => {
 	return fs.readFileSync(filePath).toString();
 };
 
-/**
- * @param {object} settings
- * @param {string} settings.body
- * @param {string} [settings.styles]
- * @param {string} settings.title
- */
-export const toHtmlDocString = ({ body, styles = '', title }) => {
+export const toHtmlDocString = ({
+	body,
+	styles = '',
+	title
+}: {
+	body: string;
+	styles?: string;
+	title: string;
+}) => {
 	const maybeEnhancer = config.USES_CLIENT_JS
 		? `\n\t\t<script type="module">${stripSpace(bootstrapper)}</script>`
 		: '';

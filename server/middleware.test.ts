@@ -1,7 +1,7 @@
-// eslint-disable-next-line node/no-extraneous-import
 import { jest } from '@jest/globals';
-import config from './config.js';
-import { disallowInProduction } from './middleware.js';
+import config from './config.ts';
+import { disallowInProduction } from './middleware.ts';
+import type { Request, Response } from 'express';
 
 const originalIsProduction = config.IS_PRODUCTION;
 
@@ -14,8 +14,7 @@ describe('Server middleware', () => {
 		it('calls next with an error if IS_PRODUCTION is true', () => {
 			config.IS_PRODUCTION = true;
 			const stubbedNext = jest.fn();
-			// @ts-ignore
-			disallowInProduction({}, {}, stubbedNext);
+			disallowInProduction({} as Request, {} as Response, stubbedNext);
 			expect(stubbedNext).toHaveBeenCalledWith(
 				new Error('This method or route is not allowed in production')
 			);
@@ -24,8 +23,7 @@ describe('Server middleware', () => {
 		it('calls next without an error if IS_PRODUCTION is false', () => {
 			config.IS_PRODUCTION = false;
 			const stubbedNext = jest.fn();
-			// @ts-ignore
-			disallowInProduction({}, {}, stubbedNext);
+			disallowInProduction({} as Request, {} as Response, stubbedNext);
 			expect(stubbedNext).toHaveBeenCalledWith();
 		});
 	});

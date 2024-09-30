@@ -1,13 +1,14 @@
-import helmet from 'helmet';
-import config from './config.js';
-import { HttpError } from './helpers.js';
+import type { NextFunction, Request, Response } from 'express';
 
-/**
- * @param {ExpressRequest} _req
- * @param {ExpressResponse} res
- * @param {NextFunction} next
- */
-export const doNotCache = (_req, res, next) => {
+import helmet from 'helmet';
+import config from './config.ts';
+import { HttpError } from './helpers.ts';
+
+export const doNotCache = (
+	_req: Request,
+	res: Response,
+	next: NextFunction
+) => {
 	res.setHeader(
 		'Cache-Control',
 		'no-store, no-cache, must-revalidate, proxy-revalidate'
@@ -23,13 +24,11 @@ export const doNotCache = (_req, res, next) => {
  * @param {object} options
  * @param {boolean} [options.isPrivate] Set this to true if the response is personalised to a user or account
  */
-export const cacheFor = (maxAge, { isPrivate = false } = {}) => {
-	/**
-	 * @param {ExpressRequest} _req
-	 * @param {ExpressResponse} res
-	 * @param {NextFunction} next
-	 */
-	return (_req, res, next) => {
+export const cacheFor = (
+	maxAge: number,
+	{ isPrivate = false }: { isPrivate?: boolean } = {}
+) => {
+	return (_req: Request, res: Response, next: NextFunction) => {
 		res.setHeader(
 			'Cache-Control',
 			`${isPrivate ? 'private' : 'public'}, max-age=${maxAge}`
@@ -39,12 +38,11 @@ export const cacheFor = (maxAge, { isPrivate = false } = {}) => {
 	};
 };
 
-/**
- * @param {ExpressRequest} _req
- * @param {ExpressResponse} _res
- * @param {NextFunction} next
- */
-export const disallowInProduction = (_req, _res, next) => {
+export const disallowInProduction = (
+	_req: Request,
+	_res: Response,
+	next: NextFunction
+) => {
 	if (config.IS_PRODUCTION) {
 		return next(
 			new HttpError(405, 'This method or route is not allowed in production')
@@ -53,12 +51,7 @@ export const disallowInProduction = (_req, _res, next) => {
 	next();
 };
 
-/**
- * @param {ExpressRequest} req
- * @param {ExpressResponse} res
- * @param {NextFunction} next
- */
-export const security = (req, res, next) => {
+export const security = (req: Request, res: Response, next: NextFunction) => {
 	const options = config.USES_CLIENT_JS
 		? {
 				contentSecurityPolicy: {

@@ -1,11 +1,11 @@
-import { logger, toHtmlDocString } from '../helpers.js';
-import config from '../config.js';
+import { logger, toHtmlDocString } from '../helpers.ts';
+import config from '../config.ts';
+import type { Request, Response } from 'express';
+import type { BaseUiViewModel } from '../../types.ts';
 
-/**
- * @param {ExpressRequest} req
- * @param {ExpressResponse} res
- */
-export const controller = async (req, res) => {
+type ViewModel = BaseUiViewModel & { message: string };
+
+export const controller = async (req: Request, res: Response) => {
 	const requestId = req.get('X-Request-ID');
 	const acceptsHtml = Boolean(req.accepts('html'));
 	const data = getData();
@@ -30,10 +30,7 @@ export const controller = async (req, res) => {
 };
 
 const getData = () => {
-	/**
-	 * @type ViewModel
-	 */
-	const data = {
+	const data: ViewModel = {
 		message:
 			'Page not found.</p><p>Did you go to this address manually? Try going back and following the links, or starting again at the <a href="/">first page</a>. That <i>should</i> fix it for you, fingers crossed.',
 		text: { title: `An error happened (404) — ${config.APP_FRIENDLY_NAME}` }
@@ -42,10 +39,7 @@ const getData = () => {
 	return data;
 };
 
-/**
- * @param {ViewModel} settings
- */
-const view = ({ message, text }) => {
+const view = ({ message, text }: ViewModel) => {
 	const body = `
 		<h1>${text.title}</h1>
 		<p>${message}</p>
@@ -53,7 +47,3 @@ const view = ({ message, text }) => {
 
 	return toHtmlDocString({ body, title: text.title });
 };
-
-/**
- * @typedef {BaseUiViewModel & { message: string }} ViewModel
- */

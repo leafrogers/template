@@ -1,9 +1,4 @@
-// @ts-nocheck
-
-/**
- * @param {object} object
- */
-export const assertNoUndefinedValues = (object) => {
+export const assertNoUndefinedValues = (object: Record<string, unknown>) => {
 	const keysWithUndefinedValues = [];
 
 	for (const [key, value] of Object.entries(object)) {

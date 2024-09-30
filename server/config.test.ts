@@ -1,4 +1,4 @@
-import { assertNoUndefinedValues } from './config.js';
+import { assertNoUndefinedValues } from './config.ts';
 
 describe('Server helpers', () => {
 	describe('assertNoUndefinedValues', () => {

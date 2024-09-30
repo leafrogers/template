@@ -7,12 +7,12 @@ import {
 	doNotCache,
 	disallowInProduction,
 	security
-} from './middleware.js';
-import { catchRejections } from './helpers.js';
+} from './middleware.ts';
+import { catchRejections } from './helpers.ts';
 
-import { controller as catchErrors } from './pages/error-catch-all.js';
-import { controller as notFound } from './pages/error-not-found.js';
-import { controller as home } from './pages/home.js';
+import { controller as catchErrors } from './pages/error-catch-all.ts';
+import { controller as notFound } from './pages/error-not-found.ts';
+import { controller as home } from './pages/home.ts';
 
 const app = express();
 const oneDayInMs = 60 * 60 * 24;

@@ -1,6 +1,6 @@
-import config from './config.js';
-import app from './app.js';
-import { logger } from './helpers.js';
+import config from './config.ts';
+import app from './app.ts';
+import { logger } from './helpers.ts';
 
 const { PORT } = config;
 

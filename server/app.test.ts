@@ -1,10 +1,9 @@
-// eslint-disable-next-line node/no-extraneous-import
 import { jest } from '@jest/globals';
 import nock from 'nock';
-import supertest from 'supertest';
+import supertest, { type Response } from 'supertest';
 
-import app from './app.js';
-import config from './config.js';
+import app from './app';
+import config from './config.ts';
 
 const request = supertest(app);
 const originalFriendlyTitle = config.APP_FRIENDLY_NAME;
@@ -66,10 +65,7 @@ describe(`The ${config.APP_FRIENDLY_NAME} app`, () => {
 	});
 
 	describe('Not found page', () => {
-		/**
-		 * @type {supertest.Response}
-		 */
-		let response;
+		let response: Response;
 
 		beforeEach(async () => {
 			response = await request.get('/made-up-path');
@@ -87,10 +83,7 @@ describe(`The ${config.APP_FRIENDLY_NAME} app`, () => {
 	});
 
 	describe('Catch-all error page for unexpected scenarios', () => {
-		/**
-		 * @type {supertest.Response}
-		 */
-		let response;
+		let response: Response;
 
 		beforeEach(async () => {
 			config.IS_PRODUCTION = true;
@@ -104,7 +97,15 @@ describe(`The ${config.APP_FRIENDLY_NAME} app`, () => {
 		});
 
 		it('renders a public-facing error message', () => {
-			expect(response.text).toMatch('Something went wrong.');
+			expect(response.text).toMatch('<p>Something went wrong.</p>');
+		});
+
+		it('responds with json if the requester doesn’t accept HTML', async () => {
+			response = await request.get('/throw-error-in-prod').accept('');
+
+			expect(response.text).toMatch(
+				'{"message":"Something went wrong.","status":405}'
+			);
 		});
 	});
 });
